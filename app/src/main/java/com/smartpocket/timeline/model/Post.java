@@ -16,7 +16,7 @@ public class Post implements Serializable {
     private String description;
     private String object_id;
     private String source;
-    private User from;
+    private User   from;
     private String type;
     private Attachments attachments;
 

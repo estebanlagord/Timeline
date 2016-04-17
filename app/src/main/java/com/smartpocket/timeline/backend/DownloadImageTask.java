@@ -24,8 +24,10 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
     protected void onPostExecute(final Bitmap result)
     {
         if (result != null) {
-            view.setImageBitmap(result);
+
             view.setAdjustViewBounds(true);
+            view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            view.setImageBitmap(result);
         }
     }
 

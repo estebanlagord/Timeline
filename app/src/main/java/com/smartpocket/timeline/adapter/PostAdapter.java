@@ -30,7 +30,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         private final TextView mTime;
         private final TextView mMessage;
         private final ProfilePictureView friendPicture;
-        private final ImageView mImage1;
+        private final ImageView mImageSingle; // used to display single images
+        private final ImageView mImage1;      // used to display multiple images
         private final ImageView mImage2;
         private final ImageView mImage3;
         private final ImageView mImage4;
@@ -44,12 +45,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             mTime = (TextView) v.findViewById(R.id.post_time);
             mMessage = (TextView) v.findViewById(R.id.post_message);
             friendPicture = (ProfilePictureView) v.findViewById(R.id.friendProfilePicture);
+            mImageSingle = (ImageView) v.findViewById(R.id.imageViewSingle);
             mImage1 = (ImageView) v.findViewById(R.id.imageView1);
             mImage2 = (ImageView) v.findViewById(R.id.imageView2);
             mImage3 = (ImageView) v.findViewById(R.id.imageView3);
             mImage4 = (ImageView) v.findViewById(R.id.imageView4);
             mImage5 = (ImageView) v.findViewById(R.id.imageView5);
             imageViews = new ImageView[]{mImage1, mImage2, mImage3, mImage4, mImage5};
+            mImageSingle.setVisibility(View.GONE);
             for (int i=0; i<imageViews.length; i++) {
                 imageViews[i].setVisibility(View.GONE);
             }
@@ -97,9 +100,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         // - replace the contents of the view with that element
         Post thePost = posts.get(position);
 
-        holder.mTime.setText(thePost.getCreated_time());
-        holder.mMessage.setText(thePost.getMessage());
         holder.friendPicture.setProfileId(thePost.getFrom().getId());
+        holder.mTime.setText(thePost.getCreated_time());
+
+        if (thePost.getMessage() != null)
+            holder.mMessage.setText(thePost.getMessage());
+        else
+            holder.mMessage.setText(thePost.getDescription());
 
         if (thePost.getStory() != null)
             holder.mStory.setText(thePost.getStory());
@@ -109,11 +116,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         if (thePost.getAttachments() != null) {
             List<String> imageUrls = thePost.getAttachments().getPictureUrls();
 
-            for (int i = 0; i < holder.imageViews.length && i < imageUrls.size(); i++) {
-                DownloadImageTask task = new DownloadImageTask(holder.imageViews[i]);
+            if (imageUrls.size() == 1) {
+                DownloadImageTask task = new DownloadImageTask(holder.mImageSingle);
                 holder.downloadImageTasks.add(task);
-                task.execute(imageUrls.get(i));
-                holder.imageViews[i].setVisibility(View.VISIBLE);
+                task.execute(imageUrls.get(0));
+                holder.mImageSingle.setVisibility(View.VISIBLE);
+            } else {
+                for (int i = 0; i < holder.imageViews.length && i < imageUrls.size(); i++) {
+                    DownloadImageTask task = new DownloadImageTask(holder.imageViews[i]);
+                    holder.downloadImageTasks.add(task);
+                    task.execute(imageUrls.get(i));
+                    holder.imageViews[i].setVisibility(View.VISIBLE);
+                }
             }
         }
 
@@ -133,12 +147,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
         holder.downloadImageTasks.clear();
 
+        holder.mImageSingle.setVisibility(View.GONE);
+        holder.mImageSingle.setImageBitmap(null);
+        holder.mImageSingle.setAdjustViewBounds(true);
+
         for (int i=0; i<holder.imageViews.length; i++){
             holder.imageViews[i].setVisibility(View.GONE);
             holder.imageViews[i].setImageBitmap(null);
             holder.imageViews[i].setAdjustViewBounds(true);
         }
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)

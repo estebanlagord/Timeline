@@ -55,29 +55,34 @@
                 android:paddingTop="15dp"
                 android:layout_alignParentLeft="true"/>
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewSingle"
+                android:layout_below="@id/post_message"/>
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/post_message"
+                android:layout_below="@id/imageViewSingle"
                 android:id="@+id/imageLayout1"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:weightSum="2">
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <com.smartpocket.timeline.views.SquareImageView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView1"
-                    android:src="@android:drawable/gallery_thumb"
                     android:layout_weight="1"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <com.smartpocket.timeline.views.SquareImageView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView2"
-                    android:src="@android:drawable/gallery_thumb"
                     android:layout_toRightOf="@id/imageView1"
                     android:layout_marginLeft="4dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
 
             </LinearLayout>
@@ -88,22 +93,21 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imageLayout2"
                 android:layout_below="@id/imageLayout1"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:weightSum="3">
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <com.smartpocket.timeline.views.SquareImageView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView3"
-                    android:src="@android:drawable/gallery_thumb"
                     android:cropToPadding="true"
                     android:scaleType="centerCrop"
                     android:layout_weight="1"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <com.smartpocket.timeline.views.SquareImageView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView4"
-                    android:src="@android:drawable/gallery_thumb"
                     android:layout_toRightOf="@id/imageView3"
                     android:layout_alignTop="@id/imageView3"
                     android:layout_marginLeft="4dp"
@@ -111,11 +115,10 @@
                     android:scaleType="centerCrop"
                     android:layout_weight="1"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <com.smartpocket.timeline.views.SquareImageView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView5"
-                    android:src="@android:drawable/gallery_thumb"
                     android:layout_toRightOf="@id/imageView4"
                     android:layout_alignTop="@id/imageView4"
                     android:layout_marginLeft="4dp"

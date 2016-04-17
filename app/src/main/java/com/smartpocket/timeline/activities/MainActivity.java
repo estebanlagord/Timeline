@@ -61,11 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshContents();
             }
         });
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
