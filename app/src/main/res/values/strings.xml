@@ -6,6 +6,7 @@
     <string name="login_success">Login success</string>
     <string name="title_activity_timeline">TimelineActivity</string>
     <string name="action_refresh">Atualizar</string>
+    <string name="please_sign_in">Efetuar login</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
