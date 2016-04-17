@@ -9,6 +9,16 @@ public class Attachments {
     public Attachments() {
     }
 
+    public String getSharedLink() {
+        String result = null;
+        if (data != null && data[0] != null) {
+            Data firstAttachment = data[0];
+            if (firstAttachment.type != null && firstAttachment.type.equals("share"))
+                result = firstAttachment.url;
+        }
+        return result;
+    }
+
     public List<String> getPictureUrls() {
         List<String> result = new ArrayList<String>();
         if (data != null){
@@ -31,6 +41,8 @@ public class Attachments {
 
     public class Data {
         public Media media;
+        public String type;
+        public String url;
         public Subattachments subattachments;
 
         public Data() {

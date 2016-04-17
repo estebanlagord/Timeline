@@ -1,6 +1,8 @@
 package com.smartpocket.timeline.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -103,7 +105,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        Post thePost = posts.get(position);
+        final Post thePost = posts.get(position);
 
         holder.friendPicture.setProfileId(thePost.getFrom().getId());
         holder.mTime.setText(thePost.getCreated_time());
@@ -126,6 +128,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 holder.downloadImageTasks.add(task);
                 task.execute(imageUrls.get(0));
                 holder.mImageSingle.setVisibility(View.VISIBLE);
+
+                // check if this is a Shared link
+                if (thePost.getAttachments().getSharedLink() != null) {
+                    holder.mImageSingle.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent();
+                            intent.setAction(Intent.ACTION_VIEW);
+                            intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                            intent.setData(Uri.parse(thePost.getAttachments().getSharedLink()));
+                            context.startActivity(intent);
+                        }
+                    });
+                }
             } else {
                 for (int i = 0; i < holder.imageViews.length && i < imageUrls.size(); i++) {
                     DownloadImageTask task = new DownloadImageTask(context, holder.imageViews[i]);
@@ -155,6 +171,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.mImageSingle.setVisibility(View.GONE);
         holder.mImageSingle.setImageBitmap(null);
         holder.mImageSingle.setAdjustViewBounds(true);
+        holder.mImageSingle.setOnClickListener(null);
 
         for (int i=0; i<holder.imageViews.length; i++){
             holder.imageViews[i].setVisibility(View.GONE);
