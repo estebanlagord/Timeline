@@ -65,6 +65,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         this.posts = posts;
     }
 
+    public void clear() {
+        this.posts.clear();
+        notifyDataSetChanged();
+    }
+
     public void addPosts(Post... posts) {
         int prevSize = this.posts.size();
         this.posts.addAll(Arrays.asList(posts));
@@ -110,7 +115,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
 
         // if this is the last item, retrieve more
-        ServiceHandler.getInstance().getUserFeed(false);
+        if (position+1 >= getItemCount()) {
+            ServiceHandler.getInstance().getUserFeed(false);
+        }
     }
 
     @Override

@@ -43,7 +43,8 @@
                 android:text="1 Jan 2015 at 1:00am"
                 android:id="@+id/post_time"
                 android:layout_below="@id/post_story"
-                android:layout_alignLeft="@id/post_story"/>
+                android:layout_alignLeft="@id/post_story"
+                android:textSize="@dimen/abc_text_size_caption_material" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -51,6 +52,7 @@
                 android:text="The message goes here."
                 android:id="@+id/post_message"
                 android:layout_below="@id/friendProfilePicture"
+                android:paddingTop="15dp"
                 android:layout_alignParentLeft="true"/>
 
             <LinearLayout

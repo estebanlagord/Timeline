@@ -48,34 +48,6 @@ public class ServiceHandler {
             request = nextRequest;
             request.setCallback(new MyGraphRequestCallback());
         }
-        /*GraphRequest request = GraphRequest.newGraphPathRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/feed",
-                //"/me/feed?fields=story,message,created_time,picture,description,object_id,source",
-                new GraphRequest.Callback() {
-                    @Override
-                    public void onCompleted(GraphResponse response) {
-                        JSONObject object = response.getJSONObject();
-
-                        nextRequest = response.getRequestForPagedResults(GraphResponse.PagingDirection.NEXT);
-
-                        try {
-                            JSONArray dataArray = object.getJSONArray("data");
-                            Log.d("JSON data: ",""+ dataArray);
-
-                            Gson gson = new Gson();
-                            Post[] posts = gson.fromJson(dataArray.toString(), Post[].class);
-                            Log.d("ServiceScheduler: ", "Parsed " + posts.length + " posts");
-                            adapter.addPosts(posts);
-
-                        } catch (Exception e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-                });*/
-
-
 
         Bundle parameters = new Bundle();
         parameters.putString("fields", "id,story,message,created_time,picture,description,object_id,source,from{picture},type,attachments");
