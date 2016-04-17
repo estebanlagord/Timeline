@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -52,6 +53,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // swipe to refresh layout
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshContents();
+            }
+        });
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -70,14 +85,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mRecyclerView.setAdapter(mAdapter);
         ServiceHandler.getInstance().setAdapter((PostAdapter) mRecyclerView.getAdapter());
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshContents();
-            }
-        });
-
         // Facebook setup
         callbackManager = CallbackManager.Factory.create();
         AppEventsLogger.activateApp(getApplication());
@@ -90,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Toast.makeText(MainActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
-                //TODO close nav drawer
             }
 
             @Override
@@ -112,6 +118,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
 
+        // if the user is not logged in, display the Navigation Drawer
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken == null) {
+            drawer.openDrawer(GravityCompat.START);
+        }
+
         updateUserInfo();
     }
 
@@ -123,7 +135,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (accessToken != null) {
             // User is logged in
             myPicture.setProfileId(accessToken.getUserId());
-            myUserNameView.setText(Profile.getCurrentProfile().getName());
+            if (Profile.getCurrentProfile() != null) {
+                myUserNameView.setText(Profile.getCurrentProfile().getName());
+            }
         } else {
             // user is logged out
             myPicture.setProfileId(null);
