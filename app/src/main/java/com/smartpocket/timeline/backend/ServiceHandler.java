@@ -50,7 +50,7 @@ public class ServiceHandler {
         }
 
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,story,message,created_time,picture,description,object_id,source,from{picture},type,attachments");
+        parameters.putString("fields", "id,story,message,created_time,picture,description,object_id,source,from{name,picture},type,attachments");
         request.setParameters(parameters);
         request.executeAsync();
     }

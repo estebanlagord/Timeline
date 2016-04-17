@@ -2,14 +2,10 @@ package com.smartpocket.timeline.model;
 
 public class User {
     private String id;
+    private String name;
     private Picture picture;
 
     public User() {}
-
-    public User(String id, Picture picture) {
-        this.id = id;
-        this.picture = picture;
-    }
 
     public String getId() {
         return id;
@@ -17,6 +13,14 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Picture getPicture() {
@@ -46,8 +50,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
-                ", picture=" + picture +
+                "name='" + name + '\'' +
                 '}';
     }
 }

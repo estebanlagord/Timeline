@@ -97,11 +97,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         // - replace the contents of the view with that element
         Post thePost = posts.get(position);
 
-        holder.mStory.setText(thePost.getStory());
         holder.mTime.setText(thePost.getCreated_time());
         holder.mMessage.setText(thePost.getMessage());
         holder.friendPicture.setProfileId(thePost.getFrom().getId());
 
+        if (thePost.getStory() != null)
+            holder.mStory.setText(thePost.getStory());
+        else
+            holder.mStory.setText(thePost.getFrom().getName());
 
         if (thePost.getAttachments() != null) {
             List<String> imageUrls = thePost.getAttachments().getPictureUrls();
