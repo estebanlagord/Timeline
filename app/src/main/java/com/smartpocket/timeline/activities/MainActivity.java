@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter for RecyclerView
-        mAdapter = new PostAdapter();
+        mAdapter = new PostAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
         ServiceHandler.getInstance().setAdapter((PostAdapter) mRecyclerView.getAdapter());
 

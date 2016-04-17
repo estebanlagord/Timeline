@@ -1,5 +1,6 @@
 package com.smartpocket.timeline.backend;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -9,14 +10,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.smartpocket.timeline.R;
+
 import java.io.InputStream;
 import java.net.URL;
 
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
 {
+    private Context context;
     private ImageView view;
 
-    public DownloadImageTask(ImageView view) {
+    public DownloadImageTask(Context context, ImageView view) {
+        this.context = context;
         this.view = view;
     }
 
@@ -28,6 +33,9 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
             view.setAdjustViewBounds(true);
             view.setScaleType(ImageView.ScaleType.CENTER_CROP);
             view.setImageBitmap(result);
+
+            Animation animAlphaIn = AnimationUtils.loadAnimation(context, R.anim.alpha_in);
+            view.startAnimation(animAlphaIn);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.smartpocket.timeline.adapter;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
+    private Context context;
     private List<Post> posts = new ArrayList<Post>();
 
     // Provide a reference to the views for each data item
@@ -61,10 +63,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
     }
 
-    public PostAdapter() { }
+    public PostAdapter(Context context) {
+        this.context = context;
+    }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public PostAdapter(List<Post> posts) {
+    public PostAdapter(Context context, List<Post> posts) {
+        this.context = context;
         this.posts = posts;
     }
 
@@ -117,13 +122,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             List<String> imageUrls = thePost.getAttachments().getPictureUrls();
 
             if (imageUrls.size() == 1) {
-                DownloadImageTask task = new DownloadImageTask(holder.mImageSingle);
+                DownloadImageTask task = new DownloadImageTask(context, holder.mImageSingle);
                 holder.downloadImageTasks.add(task);
                 task.execute(imageUrls.get(0));
                 holder.mImageSingle.setVisibility(View.VISIBLE);
             } else {
                 for (int i = 0; i < holder.imageViews.length && i < imageUrls.size(); i++) {
-                    DownloadImageTask task = new DownloadImageTask(holder.imageViews[i]);
+                    DownloadImageTask task = new DownloadImageTask(context, holder.imageViews[i]);
                     holder.downloadImageTasks.add(task);
                     task.execute(imageUrls.get(i));
                     holder.imageViews[i].setVisibility(View.VISIBLE);
