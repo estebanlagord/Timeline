@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -36,6 +37,8 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
 
             Animation animAlphaIn = AnimationUtils.loadAnimation(context, R.anim.alpha_in);
             view.startAnimation(animAlphaIn);
+        } else {
+            Snackbar.make(view, context.getString(R.string.image_download_error), Snackbar.LENGTH_LONG).show();
         }
     }
 

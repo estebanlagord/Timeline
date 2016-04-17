@@ -11,4 +11,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="image_download_error">Erro ao descarregar imagem</string>
+    <string name="no_connection_error">Conexão indisponível</string>
 </resources>

@@ -1,6 +1,9 @@
 package com.smartpocket.timeline.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -204,6 +207,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         mAdapter.clear();
 
+        if (! isOnline()) {
+            Snackbar.make(mRecyclerView, getApplicationContext().getString(R.string.no_connection_error), Snackbar.LENGTH_LONG).show();
+            mSwipeRefreshLayout.setRefreshing(false);
+            return;
+        }
+
         if (accessToken != null) {
             // user is logged in
             mSwipeRefreshLayout.setRefreshing(true);
@@ -219,6 +228,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             });
         }
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     @Override
