@@ -42,4 +42,5 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.android.support:design:23.3.0'
     compile 'com.google.code.gson:gson:2.4'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

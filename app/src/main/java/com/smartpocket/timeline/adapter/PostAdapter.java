@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.smartpocket.timeline.R;
 import com.smartpocket.timeline.backend.DownloadImageTask;
 import com.smartpocket.timeline.backend.ServiceHandler;
 import com.smartpocket.timeline.model.Post;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -96,7 +98,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 .inflate(R.layout.card_post, parent, false);
         // set the view's size, margins, paddings and layout parameters
         v.setPadding(0,0,0,0);
-
         return new ViewHolder(v);
     }
 
@@ -124,9 +125,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             List<String> imageUrls = thePost.getAttachments().getPictureUrls();
 
             if (imageUrls.size() == 1) {
-                DownloadImageTask task = new DownloadImageTask(context, holder.mImageSingle);
-                holder.downloadImageTasks.add(task);
-                task.execute(imageUrls.get(0));
+                //DownloadImageTask task = new DownloadImageTask(context, holder.mImageSingle);
+                //holder.downloadImageTasks.add(task);
+                //task.execute(imageUrls.get(0));
+
+                // load image from cache, or download if necessary
+                Picasso.with(context).load(imageUrls.get(0)).into(holder.mImageSingle);
+                holder.mImageSingle.setAdjustViewBounds(true);
+
                 holder.mImageSingle.setVisibility(View.VISIBLE);
 
                 // check if this is a Shared link
@@ -144,9 +150,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 }
             } else {
                 for (int i = 0; i < holder.imageViews.length && i < imageUrls.size(); i++) {
-                    DownloadImageTask task = new DownloadImageTask(context, holder.imageViews[i]);
-                    holder.downloadImageTasks.add(task);
-                    task.execute(imageUrls.get(i));
+                    //DownloadImageTask task = new DownloadImageTask(context, holder.imageViews[i]);
+                    //holder.downloadImageTasks.add(task);
+                    //task.execute(imageUrls.get(i));
+
+                    // load image from cache, or download if necessary
+                    Picasso.with(context).load(imageUrls.get(i)).fit().centerCrop().into(holder.imageViews[i]);
                     holder.imageViews[i].setVisibility(View.VISIBLE);
                 }
             }
