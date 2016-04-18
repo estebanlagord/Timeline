@@ -27,6 +27,11 @@
             android:layout_height="wrap_content"
             android:padding="10dp">
 
+            <RelativeLayout
+                android:id="@+id/headerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
                 <com.facebook.login.widget.ProfilePictureView
                     android:id="@+id/friendProfilePicture"
                     android:layout_width="wrap_content"
@@ -52,13 +57,14 @@
                     android:layout_below="@id/post_story"
                     android:layout_alignLeft="@id/post_story"
                     android:textSize="12sp" />
+            </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="The message goes here."
                     android:id="@+id/post_message"
-                    android:layout_below="@id/friendProfilePicture"
+                    android:layout_below="@id/headerView"
                     android:paddingTop="10dp"
                     android:layout_alignParentLeft="true"/>
             </RelativeLayout>
