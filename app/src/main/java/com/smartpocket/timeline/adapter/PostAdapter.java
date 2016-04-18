@@ -135,8 +135,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
                 holder.mImageSingle.setVisibility(View.VISIBLE);
 
-                // check if this is a Shared link
-                if (thePost.getAttachments().getSharedLink() != null) {
+                // check if this has a source link
+                if (thePost.getSource() != null) {
+                    holder.mImageSingle.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent();
+                            intent.setAction(Intent.ACTION_VIEW);
+                            intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                            intent.setData(Uri.parse(thePost.getSource()));
+                            context.startActivity(intent);
+                        }
+                    });
+                }
+                else if (thePost.getAttachments().getSharedLink() != null) {
+                    // this is a Shared link
                     holder.mImageSingle.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

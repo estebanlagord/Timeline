@@ -1,12 +1,16 @@
 package com.smartpocket.timeline.backend;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.google.gson.Gson;
+import com.smartpocket.timeline.R;
 import com.smartpocket.timeline.adapter.PostAdapter;
 import com.smartpocket.timeline.model.Post;
 
@@ -18,8 +22,11 @@ public class ServiceHandler {
     private static ServiceHandler instance;
     private GraphRequest nextRequest;
     private PostAdapter adapter;
+    private Activity activity;
 
-    private ServiceHandler() { super(); };
+    private ServiceHandler() {
+        super();
+    };
 
     public static ServiceHandler getInstance()
     {
@@ -30,12 +37,9 @@ public class ServiceHandler {
         return instance;
     }
 
-    public PostAdapter getAdapter() {
-        return adapter;
-    }
-
-    public void setAdapter(PostAdapter adapter) {
+    public void initialize(Activity activity, PostAdapter adapter) {
         this.adapter = adapter;
+        this.activity = activity;
     }
 
     public void getUserFeed(boolean retrieveFromStart) {
@@ -69,11 +73,13 @@ public class ServiceHandler {
                 Gson gson = new Gson();
                 Post[] posts = gson.fromJson(dataArray.toString(), Post[].class);
                 Log.d("ServiceScheduler: ", "Parsed " + posts.length + " posts");
-                getAdapter().addPosts(posts);
+                adapter.addPosts(posts);
 
             } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                Log.e("ServiceHandler", "Unable to retrieve feed content from Facebook", e);
+                Snackbar.make(activity.findViewById(android.R.id.content),
+                        activity.getApplicationContext().getString(R.string.feed_download_error),
+                        Snackbar.LENGTH_LONG).show();
             }
         }
     }

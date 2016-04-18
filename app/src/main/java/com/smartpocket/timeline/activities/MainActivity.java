@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // specify an adapter for RecyclerView
         mAdapter = new PostAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-        ServiceHandler.getInstance().setAdapter((PostAdapter) mRecyclerView.getAdapter());
+        ServiceHandler.getInstance().initialize(this, mAdapter);
 
         // Facebook setup
         callbackManager = CallbackManager.Factory.create();

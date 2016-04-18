@@ -6,7 +6,7 @@
     </item>
     <item>
         <bitmap
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/timeline_medium"
             android:tileMode="disabled"
             android:gravity="center"/>
     </item>

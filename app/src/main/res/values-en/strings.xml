@@ -10,4 +10,5 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="no_connection_error">Connection unavailable</string>
     <string name="please_sign_in">Please sign in</string>
+    <string name="feed_download_error">Error downloading content</string>
 </resources>
