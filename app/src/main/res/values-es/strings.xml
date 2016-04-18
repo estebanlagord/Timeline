@@ -11,4 +11,5 @@
     <string name="no_connection_error">No hay conexion</string>
     <string name="please_sign_in">Realizar login</string>
     <string name="feed_download_error">Error descargando el contenido</string>
+    <string name="title_view_image">Detalle</string>
 </resources>

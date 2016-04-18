@@ -14,4 +14,5 @@
     <string name="image_download_error">Erro ao descarregar imagem</string>
     <string name="no_connection_error">Conexão indisponível</string>
     <string name="feed_download_error">Erro ao descarregar o conteúdo</string>
+    <string name="title_view_image">Detalhe</string>
 </resources>

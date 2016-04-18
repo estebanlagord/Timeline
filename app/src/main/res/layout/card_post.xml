@@ -50,7 +50,7 @@
                     android:id="@+id/post_time"
                     android:layout_below="@id/post_story"
                     android:layout_alignLeft="@id/post_story"
-                    android:textSize="@dimen/abc_text_size_caption_material" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -62,18 +62,24 @@
                     android:layout_alignParentLeft="true"/>
             </RelativeLayout>
 
-            <ImageView
+            <LinearLayout
+                android:id="@+id/singleImageLayout"
+                android:layout_below="@id/detailsView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageViewSingle"
-                android:layout_marginTop="5dp"
-                android:layout_below="@id/detailsView"/>
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageViewSingle"
+                    android:layout_marginTop="5dp"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/imageViewSingle"
+                android:layout_below="@id/singleImageLayout"
                 android:id="@+id/imageLayout1"
                 android:layout_marginTop="5dp"
                 android:weightSum="2">

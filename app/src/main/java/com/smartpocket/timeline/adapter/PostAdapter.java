@@ -1,21 +1,18 @@
 package com.smartpocket.timeline.adapter;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.login.widget.ProfilePictureView;
 import com.smartpocket.timeline.R;
-import com.smartpocket.timeline.backend.DownloadImageTask;
+import com.smartpocket.timeline.activities.ViewImageActivity;
 import com.smartpocket.timeline.backend.ServiceHandler;
 import com.smartpocket.timeline.model.Post;
 import com.squareup.picasso.Picasso;
@@ -25,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
-    private Context context;
+    private Activity activity;
     private List<Post> posts = new ArrayList<Post>();
 
     // Provide a reference to the views for each data item
@@ -43,7 +40,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         private final ImageView mImage4;
         private final ImageView mImage5;
         private final ImageView[] imageViews;
-        private final List<DownloadImageTask> downloadImageTasks;
 
         public ViewHolder(View v) {
             super(v);
@@ -59,21 +55,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             mImage5 = (ImageView) v.findViewById(R.id.imageView5);
             imageViews = new ImageView[]{mImage1, mImage2, mImage3, mImage4, mImage5};
             mImageSingle.setVisibility(View.GONE);
-            for (int i=0; i<imageViews.length; i++) {
-                imageViews[i].setVisibility(View.GONE);
+            for (ImageView view : imageViews) {
+                view.setVisibility(View.GONE);
             }
-
-            downloadImageTasks = new ArrayList<DownloadImageTask>();
         }
     }
 
-    public PostAdapter(Context context) {
-        this.context = context;
+    public PostAdapter(Activity activity) {
+        this.activity = activity;
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public PostAdapter(Context context, List<Post> posts) {
-        this.context = context;
+    public PostAdapter(Activity activity, List<Post> posts) {
+        this.activity = activity;
         this.posts = posts;
     }
 
@@ -103,7 +96,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         // - get element from the dataset at this position
         // - replace the contents of the view with that element
         final Post thePost = posts.get(position);
@@ -122,15 +115,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             holder.mStory.setText(thePost.getFrom().getName());
 
         if (thePost.getAttachments() != null) {
-            List<String> imageUrls = thePost.getAttachments().getPictureUrls();
+            final List<String> imageUrls = thePost.getAttachments().getPictureUrls();
 
+            // this is a single image
             if (imageUrls.size() == 1) {
-                //DownloadImageTask task = new DownloadImageTask(context, holder.mImageSingle);
-                //holder.downloadImageTasks.add(task);
-                //task.execute(imageUrls.get(0));
-
                 // load image from cache, or download if necessary
-                Picasso.with(context).load(imageUrls.get(0)).into(holder.mImageSingle);
+                Picasso.with(activity).load(imageUrls.get(0)).into(holder.mImageSingle);
                 holder.mImageSingle.setAdjustViewBounds(true);
 
                 holder.mImageSingle.setVisibility(View.VISIBLE);
@@ -144,7 +134,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                             intent.setAction(Intent.ACTION_VIEW);
                             intent.addCategory(Intent.CATEGORY_BROWSABLE);
                             intent.setData(Uri.parse(thePost.getSource()));
-                            context.startActivity(intent);
+                            activity.startActivity(intent);
                         }
                     });
                 }
@@ -157,19 +147,33 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                             intent.setAction(Intent.ACTION_VIEW);
                             intent.addCategory(Intent.CATEGORY_BROWSABLE);
                             intent.setData(Uri.parse(thePost.getAttachments().getSharedLink()));
-                            context.startActivity(intent);
+                            activity.startActivity(intent);
+                        }
+                    });
+                } else {
+                    // display a bigger image on click
+                    holder.mImageSingle.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ViewImageActivity.launch(activity, holder.mImageSingle, imageUrls.get(0));
                         }
                     });
                 }
             } else {
                 for (int i = 0; i < holder.imageViews.length && i < imageUrls.size(); i++) {
-                    //DownloadImageTask task = new DownloadImageTask(context, holder.imageViews[i]);
-                    //holder.downloadImageTasks.add(task);
-                    //task.execute(imageUrls.get(i));
-
                     // load image from cache, or download if necessary
-                    Picasso.with(context).load(imageUrls.get(i)).fit().centerCrop().into(holder.imageViews[i]);
-                    holder.imageViews[i].setVisibility(View.VISIBLE);
+                    final String url = imageUrls.get(i);
+                    final ImageView view = holder.imageViews[i];
+
+                    Picasso.with(activity).load(url).fit().centerCrop().into(view);
+                    view.setVisibility(View.VISIBLE);
+                    // display a bigger image on click
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ViewImageActivity.launch(activity, view, url);
+                        }
+                    });
                 }
             }
         }
@@ -184,11 +188,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public void onViewRecycled(ViewHolder holder) {
         // clear previous values while the new ones haven't been downloaded
         holder.friendPicture.setProfileId(null);
-        // cancel pending image downloads from recycled view
-        for (AsyncTask task : holder.downloadImageTasks) {
-            task.cancel(true);
-        }
-        holder.downloadImageTasks.clear();
 
         holder.mImageSingle.setVisibility(View.GONE);
         holder.mImageSingle.setImageBitmap(null);
