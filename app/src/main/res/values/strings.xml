@@ -1,16 +1,15 @@
 <resources>
     <string name="app_name">Timeline</string>
-    <string name="facebook_app_id">1091493270907252</string>
-    <string name="login_error">Login error</string>
-    <string name="login_cancel">Login cancel</string>
-    <string name="login_success">Login success</string>
-    <string name="title_activity_timeline">TimelineActivity</string>
+    <string name="facebook_app_id" translatable="false">1091493270907252</string>
+    <string name="login_error">Erro ao efetuar login</string>
+    <string name="login_cancel">Login cancelado</string>
+    <string name="login_success">Login feito com sucesso</string>
     <string name="action_refresh">Atualizar</string>
     <string name="please_sign_in">Efetuar login</string>
-    <string name="title_activity_main">Timeline</string>
+    <string name="title_activity_main" translatable="false">Timeline</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Abrir navigation drawer</string>
+    <string name="navigation_drawer_close">Fechar navigation drawer</string>
 
     <string name="image_download_error">Erro ao descarregar imagem</string>
     <string name="no_connection_error">Conexão indisponível</string>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Timeline</string>
+    <string name="action_refresh">Actualizar</string>
+    <string name="image_download_error">Error descargando imagen</string>
+    <string name="login_cancel">Login cancelado</string>
+    <string name="login_error">Error de login</string>
+    <string name="login_success">Login exitoso</string>
+    <string name="navigation_drawer_close">Cerrar navigation drawer</string>
+    <string name="navigation_drawer_open">Abrir navigation drawer</string>
+    <string name="no_connection_error">No hay conexion</string>
+    <string name="please_sign_in">Realizar login</string>
+    <string name="title_activity_main" translatable="false"></string>
+</resources>
