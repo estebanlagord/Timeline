@@ -13,7 +13,7 @@ public class Attachments {
         String result = null;
         if (data != null && data[0] != null) {
             Data firstAttachment = data[0];
-            if (firstAttachment.type != null && firstAttachment.type.equals("share"))
+            if (firstAttachment.type != null && (firstAttachment.type.equals("share") || firstAttachment.type.equals("map")))
                 result = firstAttachment.url;
         }
         return result;
