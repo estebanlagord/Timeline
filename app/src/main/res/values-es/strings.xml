@@ -10,5 +10,4 @@
     <string name="navigation_drawer_open">Abrir navigation drawer</string>
     <string name="no_connection_error">No hay conexion</string>
     <string name="please_sign_in">Realizar login</string>
-    <string name="title_activity_main" translatable="false"></string>
 </resources>
