@@ -9,32 +9,10 @@ public class Picture {
     @Override
     public String toString() {
         return "Picture{" +
-                "data=" + data +
-                '}';
+                "data=" + data + '}';
     }
 
     public Picture() {
-    }
-
-    public Picture(Data data) {
-
-        this.data = data;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Picture picture = (Picture) o;
-
-        return data != null ? data.equals(picture.data) : picture.data == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        return data != null ? data.hashCode() : 0;
     }
 
     public Data getData() {
@@ -46,6 +24,23 @@ public class Picture {
         this.data = data;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Picture picture = (Picture) o;
+        return data != null ? data.equals(picture.data) : picture.data == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return data != null ? data.hashCode() : 0;
+    }
+
+
+
     public class Data {
         private String url;
 
@@ -56,7 +51,6 @@ public class Picture {
         }
 
         public String getUrl() {
-
             return url;
         }
 
@@ -79,7 +73,6 @@ public class Picture {
 
             Data data = (Data) o;
             return url != null ? url.equals(data.url) : data.url == null;
-
         }
 
         @Override
@@ -90,8 +83,7 @@ public class Picture {
         @Override
         public String toString() {
             return "Data{" +
-                    "url='" + url + '\'' +
-                    '}';
+                    "url='" + url + '\'' + '}';
         }
     }
 }

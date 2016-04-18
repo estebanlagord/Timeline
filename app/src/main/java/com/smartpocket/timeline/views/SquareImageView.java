@@ -4,6 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+/**
+ * Displays an image in a square View
+ */
 public class SquareImageView extends ImageView {
 
     public SquareImageView(Context context) {
@@ -21,10 +24,8 @@ public class SquareImageView extends ImageView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-
-
         int width = getMeasuredWidth();
+        // make the view square
         //noinspection SuspiciousNameCombination
         setMeasuredDimension(width, width);
     }

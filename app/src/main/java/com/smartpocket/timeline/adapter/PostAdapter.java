@@ -15,19 +15,21 @@ import com.smartpocket.timeline.R;
 import com.smartpocket.timeline.activities.ViewImageActivity;
 import com.smartpocket.timeline.backend.ServiceHandler;
 import com.smartpocket.timeline.model.Post;
+import com.smartpocket.timeline.views.OpenLinkOnClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Adapter to load information (text, images, links) into the list's cards.
+ */
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private final Activity activity;
     private List<Post> posts = new ArrayList<Post>();
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+    // Provides a reference to the views for each data item
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView mStory;
         private final TextView mTime;
@@ -44,7 +46,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         public ViewHolder(View v) {
             super(v);
             mStory = (TextView) v.findViewById(R.id.post_story);
-            mTime = (TextView) v.findViewById(R.id.post_time);
+            mTime  = (TextView) v.findViewById(R.id.post_time);
             mMessage = (TextView) v.findViewById(R.id.post_message);
             friendPicture = (ProfilePictureView) v.findViewById(R.id.friendProfilePicture);
             mImageSingle = (ImageView) v.findViewById(R.id.imageViewSingle);
@@ -53,6 +55,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             mImage3 = (ImageView) v.findViewById(R.id.imageView3);
             mImage4 = (ImageView) v.findViewById(R.id.imageView4);
             mImage5 = (ImageView) v.findViewById(R.id.imageView5);
+
             imageViews = new ImageView[]{mImage1, mImage2, mImage3, mImage4, mImage5};
             mImageSingle.setVisibility(View.GONE);
             for (ImageView view : imageViews) {
@@ -70,21 +73,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    /**
+     * Used to add posts to the adapter.
+     * @param posts
+     */
     public void addPosts(Post... posts) {
         int prevSize = this.posts.size();
         this.posts.addAll(Arrays.asList(posts));
 
-        //TODO runOnUiThread ?
         notifyItemRangeInserted(prevSize, posts.length);
     }
 
-    // Create new views (invoked by the layout manager)
+    // Creates new views (invoked by the layout manager)
     @Override
     public PostAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // create a new view
+        // create a new card view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_post, parent, false);
-        // set the view's size, margins, paddings and layout parameters
+
         v.setPadding(0,0,0,0);
         return new ViewHolder(v);
     }
@@ -96,7 +102,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         // - replace the contents of the view with that element
         final Post thePost = posts.get(position);
 
-        holder.friendPicture.setProfileId(thePost.getFrom().getId());
+        holder.friendPicture.setProfileId(thePost.getFrom().getId());  // Facebook's API will download the picture and place it in its view
         holder.mTime.setText(thePost.getCreated_time());
 
         if (thePost.getMessage() != null)
@@ -117,34 +123,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 // load image from cache, or download if necessary
                 Picasso.with(activity).load(imageUrls.get(0)).into(holder.mImageSingle);
                 holder.mImageSingle.setAdjustViewBounds(true);
-
                 holder.mImageSingle.setVisibility(View.VISIBLE);
 
                 // check if this has a source link
                 if (thePost.getSource() != null) {
-                    holder.mImageSingle.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent();
-                            intent.setAction(Intent.ACTION_VIEW);
-                            intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                            intent.setData(Uri.parse(thePost.getSource()));
-                            activity.startActivity(intent);
-                        }
-                    });
+                    holder.mImageSingle.setOnClickListener(
+                            new OpenLinkOnClickListener(activity, thePost.getSource()));
                 }
                 else if (thePost.getAttachments().getSharedLink() != null) {
                     // this is a Shared link
-                    holder.mImageSingle.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent();
-                            intent.setAction(Intent.ACTION_VIEW);
-                            intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                            intent.setData(Uri.parse(thePost.getAttachments().getSharedLink()));
-                            activity.startActivity(intent);
-                        }
-                    });
+                    holder.mImageSingle.setOnClickListener(
+                            new OpenLinkOnClickListener(activity, thePost.getAttachments().getSharedLink()));
                 } else {
                     // display a bigger image on click
                     holder.mImageSingle.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +144,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     });
                 }
             } else {
+                // this post has several images
                 for (int i = 0; i < holder.imageViews.length && i < imageUrls.size(); i++) {
                     // load image from cache, or download if necessary
                     final String url = imageUrls.get(i);
@@ -173,7 +163,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             }
         }
 
-        // if this is the last item, retrieve more
+        // if this is the last item in the adapter, download more from the user's timeline feed
         if (position+1 >= getItemCount()) {
             ServiceHandler.getInstance().getUserFeed(false);
         }
@@ -189,14 +179,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.mImageSingle.setAdjustViewBounds(true);
         holder.mImageSingle.setOnClickListener(null);
 
-        for (int i=0; i<holder.imageViews.length; i++){
-            holder.imageViews[i].setVisibility(View.GONE);
-            holder.imageViews[i].setImageBitmap(null);
-            holder.imageViews[i].setAdjustViewBounds(true);
+        for (ImageView view : holder.imageViews) {
+            view.setVisibility(View.GONE);
+            view.setImageBitmap(null);
+            view.setAdjustViewBounds(true);
+            view.setOnClickListener(null);
         }
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    // Returns the size of the dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return posts.size();

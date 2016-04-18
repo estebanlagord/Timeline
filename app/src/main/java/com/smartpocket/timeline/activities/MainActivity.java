@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,8 +39,8 @@ import com.smartpocket.timeline.backend.ServiceHandler;
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private NavigationView mNavigationView;
-    private PostAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private PostAdapter mAdapter;
     private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
 
@@ -85,21 +86,27 @@ public class MainActivity extends AppCompatActivity {
         LoginButton loginButton = (LoginButton) mNavigationView.getMenu().getItem(0).getActionView().findViewById(R.id.login_button);
         loginButton.setReadPermissions("user_posts");
 
-        // Callback registration
+        // Callback registration for Facebook's login button
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(MainActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+                Snackbar.make(MainActivity.this.findViewById(android.R.id.content),
+                        MainActivity.this.getApplicationContext().getString(R.string.login_success),
+                        Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCancel() {
-                Toast.makeText(MainActivity.this, getString(R.string.login_cancel), Toast.LENGTH_SHORT).show();
+                Snackbar.make(MainActivity.this.findViewById(android.R.id.content),
+                        MainActivity.this.getApplicationContext().getString(R.string.login_cancel),
+                        Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(FacebookException exception) {
-                Toast.makeText(MainActivity.this, getString(R.string.login_error), Toast.LENGTH_SHORT).show();
+                Snackbar.make(MainActivity.this.findViewById(android.R.id.content),
+                        MainActivity.this.getApplicationContext().getString(R.string.login_error),
+                        Snackbar.LENGTH_SHORT).show();
             }
         });
 
@@ -120,9 +127,13 @@ public class MainActivity extends AppCompatActivity {
         updateUserInfo();
     }
 
+    /**
+     * Updates the picture, name, and timeline of the user that is logged in.
+     */
     private void updateUserInfo(){
-        ProfilePictureView myPicture = (ProfilePictureView) mNavigationView.getHeaderView(0).findViewById(R.id.myProfilePicture);
-        TextView myUserNameView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.myUserName);
+        View headerView = mNavigationView.getHeaderView(0);
+        ProfilePictureView myPicture = (ProfilePictureView) headerView.findViewById(R.id.myProfilePicture);
+        TextView myUserNameView = (TextView) headerView.findViewById(R.id.myUserName);
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
 
         if (accessToken != null) {
@@ -140,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
         invalidateOptionsMenu();
         refreshContents();
     }
-
 
 
     @Override
@@ -161,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds items to the action bar
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
@@ -175,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here.
+        // Handle action bar item clicks
         int id = item.getItemId();
 
         if (id == R.id.action_refresh) {
@@ -185,6 +195,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Triggers a refresh of the user's timeline.
+     */
     private void refreshContents() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         mAdapter.clear();
@@ -207,11 +220,14 @@ public class MainActivity extends AppCompatActivity {
                     super.onItemRangeInserted(positionStart, itemCount);
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
-
             });
         }
     }
 
+    /**
+     * Checks the device's online status.
+     * @return true when an Internet connection is available.
+     */
     private boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -225,5 +241,4 @@ public class MainActivity extends AppCompatActivity {
         if (accessTokenTracker != null)
             accessTokenTracker.stopTracking();
     }
-
 }

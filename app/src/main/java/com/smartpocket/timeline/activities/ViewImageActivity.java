@@ -14,6 +14,10 @@ import android.widget.ImageView;
 import com.smartpocket.timeline.R;
 import com.squareup.picasso.Picasso;
 
+/**
+ * Displays an image in the screen, as big as possible.<br>
+ * Includes an immersive mode to hide the toolbar/status bar on tap.
+ */
 public class ViewImageActivity extends AppCompatActivity {
     private static final String EXTRA_IMAGE = "ViewImageActivity:image";
     private boolean isImmersive = false;
@@ -42,11 +46,10 @@ public class ViewImageActivity extends AppCompatActivity {
         ActivityCompat.startActivity(activity, intent, options.toBundle());
     }
 
-    // This snippet hides the system bars.
+    /**
+     * Enables immersive mode
+     */
     private void hideSystemUI() {
-        // Set the IMMERSIVE flag.
-        // Set the content to appear under the system bars so that the content
-        // doesn't resize when the system bars hide and show.
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -56,8 +59,9 @@ public class ViewImageActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
-    // This snippet shows the system bars. It does this by removing all the flags
-    // except for the ones that make the content appear under the system bars.
+    /**
+     * Disables immersive mode
+     */
     private void showSystemUI() {
         getWindow().getDecorView().setSystemUiVisibility(0);
     }

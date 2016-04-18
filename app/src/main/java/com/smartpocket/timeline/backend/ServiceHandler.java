@@ -16,6 +16,9 @@ import com.smartpocket.timeline.model.Post;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Used to retrieve feed information (plain text) from a user's timeline in Facebook.
+ */
 public class ServiceHandler {
     private static ServiceHandler instance;
     private GraphRequest nextRequest;
@@ -40,8 +43,17 @@ public class ServiceHandler {
         this.activity = activity;
     }
 
+    /**
+     * Retrieves a user's feed information from Facebook.
+     * @param retrieveFromStart when true, this will retrieve the contents of the feed from the beginning.
+     *                          When false, it will retrieve the current page instead.
+     */
     public void getUserFeed(boolean retrieveFromStart) {
         GraphRequest request;
+
+        if (adapter == null || activity == null)
+            throw new IllegalStateException("Service handler must be initialized before calling this method");
+
         if (nextRequest == null || retrieveFromStart) {
             request = GraphRequest.newGraphPathRequest(
                     AccessToken.getCurrentAccessToken(),
@@ -62,6 +74,7 @@ public class ServiceHandler {
         public void onCompleted(GraphResponse response) {
             JSONObject object = response.getJSONObject();
 
+            // the results are paginated by Facebook
             nextRequest = response.getRequestForPagedResults(GraphResponse.PagingDirection.NEXT);
 
             try {

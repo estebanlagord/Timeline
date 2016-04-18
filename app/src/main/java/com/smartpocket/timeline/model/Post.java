@@ -70,7 +70,6 @@ public class Post implements Serializable {
     }
 
     public void setCreated_time(String created_time) {
-
         this.created_time = created_time;
     }
 
@@ -136,7 +135,6 @@ public class Post implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
 
         Post post = (Post) o;
-
         return id.equals(post.id);
 
     }
@@ -149,7 +147,6 @@ public class Post implements Serializable {
     @Override
     public String toString() {
         return "Post{" +
-                "story='" + story + '\'' +
-                '}';
+                "story='" + story + '\'' + '}';
     }
 }
