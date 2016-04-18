@@ -1,5 +1,8 @@
 package com.smartpocket.timeline.model;
 
+/**
+ * Class to be used by Gson to parse Facebook's JSON
+ */
 public class User {
     private String id;
     private String name;

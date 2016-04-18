@@ -7,6 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * Class to be used by Gson to parse Facebook's JSON
+ */
 public class Post implements Serializable {
     private String id;
     private String story;

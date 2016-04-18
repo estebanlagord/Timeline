@@ -15,7 +15,7 @@ import com.smartpocket.timeline.R;
 import com.squareup.picasso.Picasso;
 
 public class ViewImageActivity extends AppCompatActivity {
-    public static final String EXTRA_IMAGE = "ViewImageActivity:image";
+    private static final String EXTRA_IMAGE = "ViewImageActivity:image";
     private boolean isImmersive = false;
     private Toolbar toolbar;
 

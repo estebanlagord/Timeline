@@ -35,11 +35,10 @@ import com.smartpocket.timeline.R;
 import com.smartpocket.timeline.adapter.PostAdapter;
 import com.smartpocket.timeline.backend.ServiceHandler;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private NavigationView mNavigationView;
     private PostAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
@@ -69,10 +68,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-        mNavigationView.setNavigationItemSelectedListener(this);
 
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.timeline_recycler_view);
-        mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter for RecyclerView
@@ -161,19 +159,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -227,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public boolean isOnline() {
+    private boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();

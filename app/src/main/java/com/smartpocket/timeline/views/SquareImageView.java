@@ -25,6 +25,7 @@ public class SquareImageView extends ImageView {
 
 
         int width = getMeasuredWidth();
+        //noinspection SuspiciousNameCombination
         setMeasuredDimension(width, width);
     }
 }

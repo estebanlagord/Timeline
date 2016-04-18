@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
-    private Activity activity;
+    private final Activity activity;
     private List<Post> posts = new ArrayList<Post>();
 
     // Provide a reference to the views for each data item
@@ -63,11 +63,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public PostAdapter(Activity activity) {
         this.activity = activity;
-    }
-
-    public PostAdapter(Activity activity, List<Post> posts) {
-        this.activity = activity;
-        this.posts = posts;
     }
 
     public void clear() {

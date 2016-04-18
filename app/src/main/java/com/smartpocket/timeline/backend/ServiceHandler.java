@@ -1,7 +1,6 @@
 package com.smartpocket.timeline.backend;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -15,7 +14,6 @@ import com.smartpocket.timeline.adapter.PostAdapter;
 import com.smartpocket.timeline.model.Post;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ServiceHandler {
@@ -26,7 +24,7 @@ public class ServiceHandler {
 
     private ServiceHandler() {
         super();
-    };
+    }
 
     public static ServiceHandler getInstance()
     {
@@ -59,7 +57,7 @@ public class ServiceHandler {
         request.executeAsync();
     }
 
-    class MyGraphRequestCallback implements GraphRequest.Callback {
+    private class MyGraphRequestCallback implements GraphRequest.Callback {
         @Override
         public void onCompleted(GraphResponse response) {
             JSONObject object = response.getJSONObject();

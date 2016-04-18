@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class to be used by Gson to parse Facebook's JSON
+ */
 public class Attachments {
-    public Data[] data;
-    private List<String> linkTypes = Arrays.asList("share", "map");
+    private Data[] data;
+    private final List<String> linkTypes = Arrays.asList("share", "map");
 
     public Attachments() {
     }
