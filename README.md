@@ -10,7 +10,7 @@
 
 * Version
 
-1.0
+1.1
 
 ### How do I get set up? ###
 
