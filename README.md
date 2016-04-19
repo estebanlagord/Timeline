@@ -2,6 +2,8 @@
 
 ### What is this repository for? ###
 
+![timeline_medium.png](https://bitbucket.org/repo/8k9knd/images/522108650-timeline_medium.png)
+
 * Quick summary
 
 This is a simple Android application to show a user's Facebook timeline. It works on Android 4.1+
