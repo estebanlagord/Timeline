@@ -16,7 +16,14 @@
 
 * Summary of set up
 
-You will need Android Studio and the Android SDK.
+1) To run the application, you can download the latest signed APK file from the Downloads section.
+
+2) To compile the project, you will need Android Studio and the Android SDK.
+
+2.a) You can download the project repository from the Downloads section. This will download a ZIP file which you can extract and open with Android Studio.
+
+2.b) During extraction, make sure to choose the option to **ignore modification times**. Otherwise you may end up having files with future timestamps, which can cause Gradle problems.
+
 
 * Dependencies
 
