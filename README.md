@@ -6,7 +6,7 @@
 
 * Quick summary
 
-This is a simple Android application to show a user's Facebook timeline. It works on Android 4.1+
+**Timeline** is a simple Android application to show a user's Facebook timeline. It works on Android 4.1+
 
 * Version
 
