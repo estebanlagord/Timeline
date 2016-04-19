@@ -1,8 +1,8 @@
 # README #
 
-### What is this repository for? ###
-
 ![timeline_medium.png](https://bitbucket.org/repo/8k9knd/images/522108650-timeline_medium.png)
+
+### What is this repository for? ###
 
 * Quick summary
 
