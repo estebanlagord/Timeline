@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private PostAdapter mAdapter;
     private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
+    private ProfileTracker profileTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +120,15 @@ public class MainActivity extends AppCompatActivity {
                 updateUserInfo();
             }
         };
+        accessTokenTracker.startTracking();
+
+        profileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                updateUserName(currentProfile);
+            }
+        };
+        profileTracker.startTracking();
 
         // if the user is not logged in, display the Navigation Drawer
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
@@ -125,6 +137,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
         updateUserInfo();
+    }
+
+    private void updateUserName(Profile profile) {
+        View headerView = mNavigationView.getHeaderView(0);
+        TextView myUserNameView = (TextView) headerView.findViewById(R.id.myUserName);
+        String newValue = null;
+
+        if (profile != null) {
+            newValue = profile.getName();
+        } else {
+            newValue = getResources().getString(R.string.please_sign_in);
+        }
+
+        myUserNameView.setText(newValue);
+        Log.i("Timeline updateUserName", "Setting username to: " + newValue);
     }
 
     /**
@@ -140,12 +167,15 @@ public class MainActivity extends AppCompatActivity {
             // User is logged in
             myPicture.setProfileId(accessToken.getUserId());
             if (Profile.getCurrentProfile() != null) {
-                myUserNameView.setText(Profile.getCurrentProfile().getName());
+                updateUserName(Profile.getCurrentProfile());
+            } else {
+                Log.e("Timeline main", "Unable to set current user name. Facebook profile is null. Fetching new profile...");
+                Profile.fetchProfileForCurrentAccessToken();
             }
         } else {
             // user is logged out
             myPicture.setProfileId(null);
-            myUserNameView.setText(getResources().getString(R.string.please_sign_in));
+            updateUserName(null);
         }
 
         invalidateOptionsMenu();
@@ -240,5 +270,8 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         if (accessTokenTracker != null)
             accessTokenTracker.stopTracking();
+
+        if (profileTracker != null)
+            profileTracker.stopTracking();
     }
 }
