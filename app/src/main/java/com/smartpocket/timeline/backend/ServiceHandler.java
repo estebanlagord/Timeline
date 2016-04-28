@@ -54,6 +54,8 @@ public class ServiceHandler {
         if (adapter == null || activity == null)
             throw new IllegalStateException("Service handler must be initialized before calling this method");
 
+
+
         if (nextRequest == null || retrieveFromStart) {
             request = GraphRequest.newGraphPathRequest(
                     AccessToken.getCurrentAccessToken(),

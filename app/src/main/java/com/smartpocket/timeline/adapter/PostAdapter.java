@@ -174,12 +174,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         // clear previous values while the new ones haven't been downloaded
         holder.friendPicture.setProfileId(null);
 
+        // cancel pending downloads
+        Picasso.with(activity).cancelRequest(holder.mImageSingle);
         holder.mImageSingle.setVisibility(View.GONE);
         holder.mImageSingle.setImageBitmap(null);
         holder.mImageSingle.setAdjustViewBounds(true);
         holder.mImageSingle.setOnClickListener(null);
 
         for (ImageView view : holder.imageViews) {
+            Picasso.with(activity).cancelRequest(view);
             view.setVisibility(View.GONE);
             view.setImageBitmap(null);
             view.setAdjustViewBounds(true);

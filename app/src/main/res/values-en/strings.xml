@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Timeline</string>
+    <string name="app_name">Simple Timeline</string>
     <string name="action_refresh">Update</string>
     <string name="image_download_error">Error downloading image</string>
     <string name="login_success">Login success</string>
@@ -12,4 +12,6 @@
     <string name="please_sign_in">Please sign in</string>
     <string name="feed_download_error">Error downloading content</string>
     <string name="title_view_image">Detail</string>
+    <string name="error_permissions">The application does not Facebook permissions</string>
+    <string name="title_activity_main">Simple Timeline</string>
 </resources>
