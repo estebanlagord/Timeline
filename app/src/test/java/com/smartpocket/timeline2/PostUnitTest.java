@@ -1,12 +1,10 @@
-package com.smartpocket.timeline;
+package com.smartpocket.timeline2;
 
-import com.smartpocket.timeline.model.Post;
+import com.smartpocket.timeline2.model.Post;
 
 import org.junit.Test;
 
-import java.text.ParseException;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.

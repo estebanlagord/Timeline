@@ -1,4 +1,4 @@
-package com.smartpocket.timeline.views;
+package com.smartpocket.timeline2.views;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -1,4 +1,4 @@
-package com.smartpocket.timeline.model;
+package com.smartpocket.timeline2.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;

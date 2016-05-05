@@ -1,4 +1,4 @@
-package com.smartpocket.timeline.activities;
+package com.smartpocket.timeline2.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,11 +16,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -31,14 +31,19 @@ import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.login.widget.ProfilePictureView;
-import com.smartpocket.timeline.R;
-import com.smartpocket.timeline.adapter.PostAdapter;
-import com.smartpocket.timeline.backend.ServiceHandler;
+import com.smartpocket.timeline2.R;
+import com.smartpocket.timeline2.adapter.PostAdapter;
+import com.smartpocket.timeline2.backend.ServiceHandler;
+
+import java.util.Arrays;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String USER_POSTS = "user_posts";
     private RecyclerView mRecyclerView;
     private NavigationView mNavigationView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -58,6 +63,14 @@ public class MainActivity extends AppCompatActivity {
 
         // swipe to refresh layout
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+
+        //SwipeRefreshLayout indicator does not appear when the setRefreshing(true) is called before the SwipeRefreshLayout.onMeasure()
+        //calling setProgressViewOffset() on the SwipeRefreshLayout  invalidates the circle view of the layout, causing SwipeRefreshLayout.onMeasure() to be called immediately.
+        TypedValue typed_value = new TypedValue();
+        getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
+        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
+        mSwipeRefreshLayout.setRefreshing(true);
+
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -87,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         AppEventsLogger.activateApp(getApplication());
 
         LoginButton loginButton = (LoginButton) mNavigationView.getMenu().getItem(0).getActionView().findViewById(R.id.login_button);
-        loginButton.setReadPermissions("user_posts");
+        loginButton.setReadPermissions(USER_POSTS);
 
         // Callback registration for Facebook's login button
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -96,6 +109,13 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(MainActivity.this.findViewById(android.R.id.content),
                         MainActivity.this.getApplicationContext().getString(R.string.login_success),
                         Snackbar.LENGTH_SHORT).show();
+
+                if (loginResult.getAccessToken() != null) {
+                    Set<String> deniedPermissions = loginResult.getRecentlyDeniedPermissions();
+                    if (deniedPermissions.contains(USER_POSTS)) {
+                        LoginManager.getInstance().logInWithReadPermissions(MainActivity.this, Arrays.asList(USER_POSTS));
+                    }
+                }
             }
 
             @Override
@@ -142,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateUserName(Profile profile) {
         View headerView = mNavigationView.getHeaderView(0);
         TextView myUserNameView = (TextView) headerView.findViewById(R.id.myUserName);
-        String newValue = null;
+        String newValue;
 
         if (profile != null) {
             newValue = profile.getName();
@@ -160,11 +180,18 @@ public class MainActivity extends AppCompatActivity {
     private void updateUserInfo(){
         View headerView = mNavigationView.getHeaderView(0);
         ProfilePictureView myPicture = (ProfilePictureView) headerView.findViewById(R.id.myProfilePicture);
-        TextView myUserNameView = (TextView) headerView.findViewById(R.id.myUserName);
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
 
         if (accessToken != null) {
             // User is logged in
+            Set<String> permissions = accessToken.getPermissions();
+            Log.i("Facebook permissions", accessToken.getPermissions().toString());
+            if (!permissions.contains(USER_POSTS)) {
+                Log.e("Facebook permissions", getString(R.string.error_permissions));
+                Snackbar.make(findViewById(android.R.id.content),
+                        getString(R.string.login_error), Snackbar.LENGTH_LONG).show();
+            }
+
             myPicture.setProfileId(accessToken.getUserId());
             if (Profile.getCurrentProfile() != null) {
                 updateUserName(Profile.getCurrentProfile());

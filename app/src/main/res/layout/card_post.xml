@@ -91,17 +91,16 @@
                 android:layout_marginTop="5dp"
                 android:weightSum="2">
 
-                <com.smartpocket.timeline.views.SquareImageView
+                <com.smartpocket.timeline2.views.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView1"
                     android:layout_weight="1"/>
 
-                <com.smartpocket.timeline.views.SquareImageView
+                <com.smartpocket.timeline2.views.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView2"
-                    android:layout_toRightOf="@id/imageView1"
                     android:layout_marginLeft="4dp"
                     android:layout_weight="1" />
 
@@ -117,7 +116,7 @@
                 android:layout_marginTop="5dp"
                 android:weightSum="3">
 
-                <com.smartpocket.timeline.views.SquareImageView
+                <com.smartpocket.timeline2.views.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView3"
@@ -125,23 +124,19 @@
                     android:scaleType="centerCrop"
                     android:layout_weight="1"/>
 
-                <com.smartpocket.timeline.views.SquareImageView
+                <com.smartpocket.timeline2.views.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView4"
-                    android:layout_toRightOf="@id/imageView3"
-                    android:layout_alignTop="@id/imageView3"
                     android:layout_marginLeft="4dp"
                     android:cropToPadding="true"
                     android:scaleType="centerCrop"
                     android:layout_weight="1"/>
 
-                <com.smartpocket.timeline.views.SquareImageView
+                <com.smartpocket.timeline2.views.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView5"
-                    android:layout_toRightOf="@id/imageView4"
-                    android:layout_alignTop="@id/imageView4"
                     android:layout_marginLeft="4dp"
                     android:cropToPadding="true"
                     android:scaleType="centerCrop"

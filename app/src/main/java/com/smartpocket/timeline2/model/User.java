@@ -1,4 +1,4 @@
-package com.smartpocket.timeline.model;
+package com.smartpocket.timeline2.model;
 
 /**
  * Class to be used by Gson to parse Facebook's JSON
