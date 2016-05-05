@@ -1,8 +1,6 @@
-package com.smartpocket.timeline.adapter;
+package com.smartpocket.timeline2.adapter;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.login.widget.ProfilePictureView;
-import com.smartpocket.timeline.R;
-import com.smartpocket.timeline.activities.ViewImageActivity;
-import com.smartpocket.timeline.backend.ServiceHandler;
-import com.smartpocket.timeline.model.Post;
-import com.smartpocket.timeline.views.OpenLinkOnClickListener;
+import com.smartpocket.timeline2.R;
+import com.smartpocket.timeline2.activities.ViewImageActivity;
+import com.smartpocket.timeline2.backend.ServiceHandler;
+import com.smartpocket.timeline2.model.Post;
+import com.smartpocket.timeline2.views.OpenLinkOnClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -27,7 +25,7 @@ import java.util.List;
  */
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private final Activity activity;
-    private List<Post> posts = new ArrayList<Post>();
+    private final List<Post> posts = new ArrayList<Post>();
 
     // Provides a reference to the views for each data item
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -75,7 +73,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     /**
      * Used to add posts to the adapter.
-     * @param posts
      */
     public void addPosts(Post... posts) {
         int prevSize = this.posts.size();

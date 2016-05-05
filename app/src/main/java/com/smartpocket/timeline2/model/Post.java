@@ -1,4 +1,4 @@
-package com.smartpocket.timeline.model;
+package com.smartpocket.timeline2.model;
 
 import java.io.Serializable;
 import java.text.DateFormat;

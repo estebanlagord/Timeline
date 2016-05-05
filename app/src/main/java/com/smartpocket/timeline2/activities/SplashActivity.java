@@ -1,4 +1,4 @@
-package com.smartpocket.timeline.activities;
+package com.smartpocket.timeline2.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

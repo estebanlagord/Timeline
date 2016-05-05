@@ -1,4 +1,4 @@
-package com.smartpocket.timeline.backend;
+package com.smartpocket.timeline2.backend;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,9 +9,9 @@ import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.google.gson.Gson;
-import com.smartpocket.timeline.R;
-import com.smartpocket.timeline.adapter.PostAdapter;
-import com.smartpocket.timeline.model.Post;
+import com.smartpocket.timeline2.R;
+import com.smartpocket.timeline2.adapter.PostAdapter;
+import com.smartpocket.timeline2.model.Post;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

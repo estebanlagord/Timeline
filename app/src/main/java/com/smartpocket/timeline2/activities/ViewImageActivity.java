@@ -1,4 +1,4 @@
-package com.smartpocket.timeline.activities;
+package com.smartpocket.timeline2.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.smartpocket.timeline.R;
+import com.smartpocket.timeline2.R;
 import com.squareup.picasso.Picasso;
 
 /**

@@ -1,4 +1,4 @@
-package com.smartpocket.timeline.activities;
+package com.smartpocket.timeline2.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -35,15 +35,15 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.login.widget.ProfilePictureView;
-import com.smartpocket.timeline.R;
-import com.smartpocket.timeline.adapter.PostAdapter;
-import com.smartpocket.timeline.backend.ServiceHandler;
+import com.smartpocket.timeline2.R;
+import com.smartpocket.timeline2.adapter.PostAdapter;
+import com.smartpocket.timeline2.backend.ServiceHandler;
 
 import java.util.Arrays;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String USER_POSTS = "user_posts";
+    private static final String USER_POSTS = "user_posts";
     private RecyclerView mRecyclerView;
     private NavigationView mNavigationView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateUserName(Profile profile) {
         View headerView = mNavigationView.getHeaderView(0);
         TextView myUserNameView = (TextView) headerView.findViewById(R.id.myUserName);
-        String newValue = null;
+        String newValue;
 
         if (profile != null) {
             newValue = profile.getName();
@@ -180,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
     private void updateUserInfo(){
         View headerView = mNavigationView.getHeaderView(0);
         ProfilePictureView myPicture = (ProfilePictureView) headerView.findViewById(R.id.myProfilePicture);
-        TextView myUserNameView = (TextView) headerView.findViewById(R.id.myUserName);
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
 
         if (accessToken != null) {

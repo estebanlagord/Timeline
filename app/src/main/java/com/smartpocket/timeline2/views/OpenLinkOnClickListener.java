@@ -1,4 +1,4 @@
-package com.smartpocket.timeline.views;
+package com.smartpocket.timeline2.views;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,8 +9,8 @@ import android.view.View;
  * OnClickListener used to open a link in the system's browser
  */
 public class OpenLinkOnClickListener implements View.OnClickListener {
-    private Activity activity;
-    private String url;
+    private final Activity activity;
+    private final String url;
 
     public OpenLinkOnClickListener(Activity activity, String url) {
         this.activity = activity;
