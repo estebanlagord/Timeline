@@ -1,6 +1,6 @@
 # README #
 
-![timeline_medium.png](https://bitbucket.org/repo/8k9knd/images/522108650-timeline_medium.png)
+![timeline_medium.png](https://raw.githubusercontent.com/estebanlagord/Timeline/master/app/src/main/res/drawable/timeline_medium.png)
 
 ### What is this repository for? ###
 
@@ -10,7 +10,7 @@
 
 * Version
 
-1.1
+2.0
 
 ### How do I get set up? ###
 
